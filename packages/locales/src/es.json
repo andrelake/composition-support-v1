@@ -1,0 +1,109 @@
+{
+  "app": {
+    "title": "Asistente de Composición"
+  },
+  "roulette": {
+    "spin": "Girar",
+    "spinning": "Girando..."
+  },
+  "dashboard": {
+    "harmonicField": {
+      "title": "Campo Armónico",
+      "selectedKey": "Tonalidad Seleccionada",
+      "parallelKey": "Tonalidad Paralela",
+      "basic": "Básico",
+      "modes": "Modos Griegos"
+    },
+    "scale": {
+      "title": "Referencia de Escala",
+      "notes": "Notas de la Escala",
+      "pentatonic": "Pentatónicas"
+    },
+    "actions": {
+      "switchToMinor": "Cambiar a Menor",
+      "switchToMajor": "Cambiar a Mayor",
+      "selectTonality": "Seleccionar tonalidad"
+    },
+    "cadence": {
+      "title": "Cadencias Comunes",
+      "pop": "Pop",
+      "jazz": "Jazz",
+      "classical": "Clásica",
+      "reggae": "Reggae",
+      "progression": "Progresión",
+      "show": "Mostrar",
+      "hide": "Ocultar",
+      "premiumNotice": "Más cadencias están disponibles para usuarios premium. Actualiza para desbloquear más géneros."
+    },
+    "noData": "No hay datos disponibles"
+  },
+  "tonality": {
+    "Major": "Mayor",
+    "Minor": "Menor",
+    "Harmonic Minor": "Menor Armónica",
+    "Melodic Minor": "Menor Melódica",
+    "Ionian": "Jónico",
+    "Dorian": "Dórico",
+    "Phrygian": "Frigio",
+    "Lydian": "Lidio",
+    "Mixolydian": "Mixolidio",
+    "Aeolian": "Eólico",
+    "Locrian": "Locrio",
+    "Major Pentatonic": "Pentatónica Mayor",
+    "Minor Pentatonic": "Pentatónica Menor"
+  },
+  "quality": {
+    "major": "Mayor",
+    "minor": "Menor",
+    "diminished": "Disminuido",
+    "augmented": "Aumentado"
+  },
+  "settings": {
+    "language": "Idioma",
+    "plan": "Plan"
+  },
+  "auth": {
+    "signOut": "Cerrar Sesión",
+    "signOutConfirm": "¿Estás seguro de que deseas cerrar sesión?"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "cancel": "Cancelar"
+  },
+  "nav": {
+    "home": "Inicio",
+    "userArea": "Área de Usuario"
+  },
+  "userArea": {
+    "title": "Área de Usuario",
+    "billing": "Facturación",
+    "manageSubscription": "Administrar Suscripción",
+    "upgrade": "Actualizar a Pro",
+    "currentPlan": "Plan Actual"
+  },
+  "billing": {
+    "paymentMethod": "Método de Pago",
+    "date": "Fecha",
+    "expires": "Vence",
+    "status": "Estado",
+    "amount": "Monto",
+    "invoice": "Factura",
+    "download": "Descargar",
+    "noHistory": "No hay historial de pagos disponible.",
+    "statusPaid": "Pagado",
+    "statusPending": "Pendiente",
+    "statusFailed": "Fallido"
+  },
+  "plan": {
+    "free": "Nivel Gratuito",
+    "premium": "Profesional",
+    "features": {
+      "unlimitedProjects": "Proyectos ilimitados",
+      "limitedProjects": "Hasta 3 proyectos",
+      "advancedTools": "Herramientas avanzadas de teoría musical",
+      "basicTools": "Escalas y acordes básicos",
+      "midiExport": "Exportación MIDI",
+      "standardExport": "Exportación estándar"
+    }
+  }
+}

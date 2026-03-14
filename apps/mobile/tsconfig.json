@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "react-native",
+    "lib": ["dom", "esnext"],
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "paths": {
+      "@cs/music-engine": ["../../packages/music-engine/src/index.ts"],
+      "@cs/store": ["../../packages/store/src/index.ts"],
+      "@cs/locales": ["../../packages/locales/src/index.ts"],
+      "@cs/supabase": ["../../packages/supabase/src/index.ts"]
+    }
+  },
+  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]
+}

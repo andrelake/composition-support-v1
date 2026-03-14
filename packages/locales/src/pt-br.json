@@ -1,0 +1,109 @@
+{
+  "app": {
+    "title": "Assistente de Composição"
+  },
+  "roulette": {
+    "spin": "Girar",
+    "spinning": "Girando..."
+  },
+  "dashboard": {
+    "harmonicField": {
+      "title": "Campo Harmônico",
+      "selectedKey": "Tom Selecionado",
+      "parallelKey": "Tom Paralelo",
+      "basic": "Básico",
+      "modes": "Modos Gregos"
+    },
+    "scale": {
+      "title": "Escala de Referência",
+      "notes": "Notas da Escala",
+      "pentatonic": "Pentatônicas"
+    },
+    "actions": {
+      "switchToMinor": "Mudar para Menor",
+      "switchToMajor": "Mudar para Maior",
+      "selectTonality": "Selecionar tonalidade"
+    },
+    "cadence": {
+      "title": "Cadências Comuns",
+      "pop": "Pop",
+      "jazz": "Jazz",
+      "classical": "Clássica",
+      "reggae": "Reggae",
+      "progression": "Progressão",
+      "show": "Mostrar",
+      "hide": "Ocultar",
+      "premiumNotice": "Mais cadências estão disponíveis para usuários premium. Faça upgrade para desbloquear mais gêneros."
+    },
+    "noData": "Nenhum dado disponível"
+  },
+  "tonality": {
+    "Major": "Maior",
+    "Minor": "Menor",
+    "Harmonic Minor": "Menor Harmônica",
+    "Melodic Minor": "Menor Melódica",
+    "Ionian": "Jônio",
+    "Dorian": "Dórico",
+    "Phrygian": "Frígio",
+    "Lydian": "Lídio",
+    "Mixolydian": "Mixolídio",
+    "Aeolian": "Eólio",
+    "Locrian": "Lócrio",
+    "Major Pentatonic": "Pentatônica Maior",
+    "Minor Pentatonic": "Pentatônica Menor"
+  },
+  "quality": {
+    "major": "Maior",
+    "minor": "Menor",
+    "diminished": "Diminuta",
+    "augmented": "Aumentada"
+  },
+  "settings": {
+    "language": "Idioma",
+    "plan": "Plano"
+  },
+  "auth": {
+    "signOut": "Sair",
+    "signOutConfirm": "Tem certeza que deseja sair?"
+  },
+  "common": {
+    "loading": "Carregando...",
+    "cancel": "Cancelar"
+  },
+  "nav": {
+    "home": "Início",
+    "userArea": "Área do Usuário"
+  },
+  "userArea": {
+    "title": "Área do Usuário",
+    "billing": "Cobrança",
+    "manageSubscription": "Gerenciar Assinatura",
+    "upgrade": "Mudar para Pro",
+    "currentPlan": "Plano Atual"
+  },
+  "billing": {
+    "paymentMethod": "Método de Pagamento",
+    "date": "Data",
+    "expires": "Expira em",
+    "status": "Status",
+    "amount": "Valor",
+    "invoice": "Fatura",
+    "download": "Baixar",
+    "noHistory": "Nenhum histórico de pagamento disponível.",
+    "statusPaid": "Pago",
+    "statusPending": "Pendente",
+    "statusFailed": "Falhou"
+  },
+  "plan": {
+    "free": "Nível Gratuito",
+    "premium": "Profissional",
+    "features": {
+      "unlimitedProjects": "Projetos ilimitados",
+      "limitedProjects": "Até 3 projetos",
+      "advancedTools": "Ferramentas avançadas de teoria musical",
+      "basicTools": "Escalas e acordes básicos",
+      "midiExport": "Exportação MIDI",
+      "standardExport": "Exportação padrão"
+    }
+  }
+}

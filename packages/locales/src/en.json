@@ -1,0 +1,109 @@
+{
+  "app": {
+    "title": "Composition Helper"
+  },
+  "roulette": {
+    "spin": "Spin",
+    "spinning": "Spinning..."
+  },
+  "dashboard": {
+    "harmonicField": {
+      "title": "Harmonic Field",
+      "selectedKey": "Selected Key",
+      "parallelKey": "Parallel Key",
+      "basic": "Basic",
+      "modes": "Greek Modes"
+    },
+    "scale": {
+      "title": "Scale Reference",
+      "notes": "Scale Notes",
+      "pentatonic": "Pentatonics"
+    },
+    "actions": {
+      "switchToMinor": "Switch to Minor",
+      "switchToMajor": "Switch to Major",
+      "selectTonality": "Select tonality"
+    },
+    "cadence": {
+      "title": "Common Cadences",
+      "pop": "Pop",
+      "jazz": "Jazz",
+      "classical": "Classical",
+      "reggae": "Reggae",
+      "progression": "Progression",
+      "show": "Show",
+      "hide": "Hide",
+      "premiumNotice": "More cadences are available for premium users. Upgrade to unlock more genres."
+    },
+    "noData": "No data available"
+  },
+  "tonality": {
+    "Major": "Major",
+    "Minor": "Minor",
+    "Harmonic Minor": "Harmonic Minor",
+    "Melodic Minor": "Melodic Minor",
+    "Ionian": "Ionian",
+    "Dorian": "Dorian",
+    "Phrygian": "Phrygian",
+    "Lydian": "Lydian",
+    "Mixolydian": "Mixolydian",
+    "Aeolian": "Aeolian",
+    "Locrian": "Locrian",
+    "Major Pentatonic": "Major Pentatonic",
+    "Minor Pentatonic": "Minor Pentatonic"
+  },
+  "quality": {
+    "major": "Major",
+    "minor": "Minor",
+    "diminished": "Diminished",
+    "augmented": "Augmented"
+  },
+  "settings": {
+    "language": "Language",
+    "plan": "Plan"
+  },
+  "auth": {
+    "signOut": "Sign Out",
+    "signOutConfirm": "Are you sure you want to sign out?"
+  },
+  "common": {
+    "loading": "Loading...",
+    "cancel": "Cancel"
+  },
+  "nav": {
+    "home": "Home",
+    "userArea": "User Area"
+  },
+  "userArea": {
+    "title": "User Area",
+    "billing": "Billing",
+    "manageSubscription": "Manage Subscription",
+    "upgrade": "Upgrade to Pro",
+    "currentPlan": "Current Plan"
+  },
+  "billing": {
+    "paymentMethod": "Payment Method",
+    "date": "Date",
+    "expires": "Expires",
+    "status": "Status",
+    "amount": "Amount",
+    "invoice": "Invoice",
+    "download": "Download",
+    "noHistory": "No payment history available.",
+    "statusPaid": "Paid",
+    "statusPending": "Pending",
+    "statusFailed": "Failed"
+  },
+  "plan": {
+    "free": "Free Tier",
+    "premium": "Professional",
+    "features": {
+      "unlimitedProjects": "Unlimited projects",
+      "limitedProjects": "Up to 3 projects",
+      "advancedTools": "Advanced music theory tools",
+      "basicTools": "Basic scales & chords",
+      "midiExport": "MIDI export",
+      "standardExport": "Standard export"
+    }
+  }
+}
