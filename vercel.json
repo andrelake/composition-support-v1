@@ -1,6 +1,6 @@
 {
-  "buildCommand": "npx expo export --platform web",
-  "outputDirectory": "dist",
-  "installCommand": "npm install",
+  "buildCommand": "cd ../.. && npm run build:web --workspace=@cs/mobile",
+  "outputDirectory": "apps/mobile/dist",
+  "installCommand": "npm ci",
   "framework": null
 }
