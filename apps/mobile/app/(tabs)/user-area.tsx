@@ -90,7 +90,7 @@ export default function UserAreaScreen() {
             <>
               <Text style={styles.planFeature}>• {t('plan.features.basicTools')}</Text>
               <Text style={styles.planFeature}>• {t('plan.features.limitedProjects')}</Text>
-              <TouchableOpacity style={styles.upgradeButton} onPress={() => {}}>
+              <TouchableOpacity style={[styles.upgradeButton, { opacity: 0.5 }]} onPress={() => {}} disabled={true}>
                 <Text style={styles.upgradeButtonText}>{t('userArea.upgrade')}</Text>
               </TouchableOpacity>
             </>
