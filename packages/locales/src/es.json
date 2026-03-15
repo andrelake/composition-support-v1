@@ -12,7 +12,9 @@
       "selectedKey": "Tonalidad Seleccionada",
       "parallelKey": "Tonalidad Paralela",
       "basic": "Básico",
-      "modes": "Modos Griegos"
+      "modes": "Modos Griegos",
+      "guestLock": "Inicia sesión para explorar los Modos Griegos",
+      "guestLockButton": "Iniciar sesión"
     },
     "scale": {
       "title": "Referencia de Escala",

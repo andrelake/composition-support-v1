@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { useAppStore } from '@cs/store';
+import { router } from 'expo-router';
+import { useAppStore, useUserStore } from '@cs/store';
 import { getScale, getDiatonicChords } from '@cs/music-engine';
 import type { Note, Tonality } from '@cs/music-engine';
 import { Card } from '../ui/Card';
@@ -59,11 +60,13 @@ function HarmonicRow({ root, tonality, label }: HarmonicRowProps) {
 
 export function HarmonicFieldCard() {
   const { currentKey } = useAppStore();
+  const profile = useUserStore((s) => s.profile);
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<'basic' | 'modes'>('basic');
 
   if (!currentKey) return null;
 
+  const isGuest = profile?.id === 'guest';
   const parallelTonality: Tonality = currentKey.tonality === 'Major' ? 'Minor' : 'Major';
 
   const basicRows: Array<{ root: Note; tonality: Tonality; label?: string }> = [
@@ -102,6 +105,22 @@ export function HarmonicFieldCard() {
         {rows.map((row, idx) => (
           <HarmonicRow key={`${row.root}-${row.tonality}-${idx}`} root={row.root} tonality={row.tonality} label={'label' in row ? row.label : undefined} />
         ))}
+        {activeTab === 'modes' && isGuest && (
+          <View style={styles.guestOverlay}>
+            <View style={[
+              StyleSheet.absoluteFillObject,
+              styles.guestBlur,
+              Platform.OS === 'web' ? ({ backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' } as object) : {},
+            ]} />
+            <View style={styles.guestContent}>
+              <Text style={styles.guestLockIcon}>🔒</Text>
+              <Text style={styles.guestLockText}>{t('dashboard.harmonicField.guestLock')}</Text>
+              <TouchableOpacity style={styles.guestButton} onPress={() => router.replace('/(auth)/login')}>
+                <Text style={styles.guestButtonText}>{t('dashboard.harmonicField.guestLockButton')}</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
       </View>
     </Card>
   );
@@ -137,6 +156,7 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     gap: 16,
+    position: 'relative',
   },
   rowWrapper: {
     gap: 6,
@@ -195,5 +215,43 @@ const styles = StyleSheet.create({
   },
   chordNameHighlight: {
     color: theme.colors.primary,
+  },
+  guestOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    zIndex: 10,
+    borderRadius: 8,
+    overflow: 'hidden',
+    minHeight: 160,
+  },
+  guestBlur: {
+    backgroundColor: 'rgba(18, 18, 20, 0.75)',
+  },
+  guestContent: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 12,
+    paddingVertical: 32,
+    paddingHorizontal: 24,
+  },
+  guestLockIcon: {
+    fontSize: 28,
+  },
+  guestLockText: {
+    fontSize: 14,
+    color: theme.colors.text,
+    textAlign: 'center',
+    fontWeight: '500',
+  },
+  guestButton: {
+    backgroundColor: theme.colors.primary,
+    paddingVertical: 10,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+  },
+  guestButtonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '600',
   },
 });

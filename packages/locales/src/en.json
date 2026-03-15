@@ -12,7 +12,9 @@
       "selectedKey": "Selected Key",
       "parallelKey": "Parallel Key",
       "basic": "Basic",
-      "modes": "Greek Modes"
+      "modes": "Greek Modes",
+      "guestLock": "Sign in to explore the Greek Modes",
+      "guestLockButton": "Sign In"
     },
     "scale": {
       "title": "Scale Reference",

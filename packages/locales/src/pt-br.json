@@ -12,7 +12,9 @@
       "selectedKey": "Tom Selecionado",
       "parallelKey": "Tom Paralelo",
       "basic": "Básico",
-      "modes": "Modos Gregos"
+      "modes": "Modos Gregos",
+      "guestLock": "Faça login para explorar os Modos Gregos",
+      "guestLockButton": "Entrar"
     },
     "scale": {
       "title": "Escala de Referência",
