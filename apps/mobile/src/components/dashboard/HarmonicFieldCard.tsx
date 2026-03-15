@@ -86,7 +86,7 @@ export function HarmonicFieldCard() {
     { root: currentKey.root, tonality: 'Locrian' },
   ];
 
-  const rows = activeTab === 'basic' ? basicRows : modeRows;
+  const rows: Array<{ root: Note; tonality: Tonality; label?: string }> = activeTab === 'basic' ? basicRows : modeRows;
 
   return (
     <Card>
