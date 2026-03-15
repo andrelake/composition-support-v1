@@ -9,7 +9,7 @@ import Animated, {
   runOnJS,
 } from 'react-native-reanimated';
 import { useAppStore } from '@cs/store';
-import { CIRCLE_OF_FIFTHS, getRandomKey } from '@cs/music-engine';
+import { CIRCLE_OF_FIFTHS } from '@cs/music-engine';
 import type { Note } from '@cs/music-engine';
 import { theme } from '../../theme';
 
@@ -42,10 +42,9 @@ const buildSegmentPath = (cx: number, cy: number, outerR: number, innerR: number
 const AnimatedG = Animated.createAnimatedComponent(G);
 
 export function RouletteWheel() {
-  const { currentKey, isSpinning, setKey, setSpinning, spin } = useAppStore();
+  const { currentKey, isSpinning, targetKey, setKey, setSpinning, spin, clearTarget } = useAppStore();
   const rotation = useSharedValue(0);
   const totalRotation = React.useRef(0);
-  const targetKeyRef = React.useRef<ReturnType<typeof getRandomKey> | null>(null);
 
   const cx = RADIUS;
   const cy = RADIUS;
@@ -55,16 +54,16 @@ export function RouletteWheel() {
   }));
 
   const handleSpinComplete = () => {
-    if (targetKeyRef.current) {
-      setKey(targetKeyRef.current.root, targetKeyRef.current.tonality);
+    if (targetKey) {
+      setKey(targetKey.root, targetKey.tonality);
     }
     setSpinning(false);
-    targetKeyRef.current = null;
+    clearTarget();
   };
 
   useEffect(() => {
-    if (isSpinning && targetKeyRef.current) {
-      const targetRoot = normalizeKey(targetKeyRef.current.root);
+    if (isSpinning && targetKey) {
+      const targetRoot = normalizeKey(targetKey.root);
       const index = CIRCLE_OF_FIFTHS.indexOf(targetRoot);
       if (index === -1) { setSpinning(false); return; }
 
@@ -115,7 +114,6 @@ export function RouletteWheel() {
 
   const handleSpin = () => {
     if (isSpinning) return;
-    targetKeyRef.current = getRandomKey();
     spin();
   };
 
@@ -151,6 +149,7 @@ export function RouletteWheel() {
                 <SvgText
                   x={labelPos.x}
                   y={labelPos.y}
+                  transform={`rotate(${midAngle}, ${labelPos.x}, ${labelPos.y})`}
                   textAnchor="middle"
                   alignmentBaseline="middle"
                   fontSize={13}

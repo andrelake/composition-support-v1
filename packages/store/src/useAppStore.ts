@@ -1,18 +1,20 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { KeyConfig, HarmonyResult, Note, Tonality } from '@cs/music-engine';
-import { calculateHarmony } from '@cs/music-engine';
+import { calculateHarmony, getRandomKey } from '@cs/music-engine';
 
 interface AppState {
   // State
   currentKey: KeyConfig;
   harmonyResult: HarmonyResult;
   isSpinning: boolean;
+  targetKey: KeyConfig | null;
 
   // Actions
   setKey: (root: Note, tonality: Tonality) => void;
   spin: () => void;
   setSpinning: (state: boolean) => void;
+  clearTarget: () => void;
 }
 
 export const useAppStore = create<AppState>()(
@@ -21,6 +23,7 @@ export const useAppStore = create<AppState>()(
       currentKey: { root: 'C', tonality: 'Major' },
       harmonyResult: calculateHarmony('C', 'Major'),
       isSpinning: false,
+      targetKey: null,
 
       setKey: (root, tonality) => {
         set({
@@ -32,8 +35,10 @@ export const useAppStore = create<AppState>()(
       setSpinning: (state) => set({ isSpinning: state }),
 
       spin: () => {
-        set({ isSpinning: true });
+        set({ isSpinning: true, targetKey: getRandomKey() });
       },
+
+      clearTarget: () => set({ targetKey: null }),
     }),
     {
       name: 'composition-support-storage',
