@@ -29,13 +29,26 @@ jobs:
           EXPO_PUBLIC_SUPABASE_URL: ${{ secrets.EXPO_PUBLIC_SUPABASE_URL }}
           EXPO_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.EXPO_PUBLIC_SUPABASE_ANON_KEY }}
 
-      - name: Add SPA routing config
+      - name: Prepare Vercel Build Output
         run: |
-          echo '{"rewrites":[{"source":"/(.*)","destination":"/index.html"}]}' > apps/mobile/dist/vercel.json
+          mkdir -p .vercel/output/static
+          cp -r apps/mobile/dist/. .vercel/output/static/
+          cat > .vercel/output/config.json << 'EOF'
+          {
+            "version": 3,
+            "routes": [
+              {
+                "src": "/(_expo|assets)/.*",
+                "headers": { "cache-control": "public, max-age=31536000, immutable" }
+              },
+              { "handle": "filesystem" },
+              { "src": "/(.*)", "dest": "/index.html" }
+            ]
+          }
+          EOF
 
-      - name: Deploy to Vercel
-        working-directory: apps/mobile/dist
-        run: npx vercel deploy --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy prebuilt to Vercel
+        run: npx vercel deploy --prebuilt --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
