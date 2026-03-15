@@ -43,7 +43,7 @@ export default function LoginScreen() {
       memberSince: new Date().toISOString(),
     };
     setProfile(guestProfile);
-    router.replace('/(tabs)/');
+    router.replace('/(tabs)');
   };
 
   return (

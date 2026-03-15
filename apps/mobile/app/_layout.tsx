@@ -40,7 +40,7 @@ export default function RootLayout() {
           };
 
           setProfile(profile);
-          router.replace('/(tabs)/');
+          router.replace('/(tabs)');
         } else if (event === 'SIGNED_OUT') {
           clearUser();
           router.replace('/(auth)/login');

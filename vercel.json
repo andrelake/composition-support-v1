@@ -1,7 +1,0 @@
-{
-  "rootDirectory": "apps/mobile",
-  "buildCommand": "expo export --platform web",
-  "outputDirectory": "dist",
-  "installCommand": "cd ../.. && npm ci",
-  "framework": null
-}
