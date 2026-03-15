@@ -53,7 +53,7 @@ export default function LoginScreen() {
 
       {error && <Text style={styles.error}>{error}</Text>}
 
-      <TouchableOpacity style={styles.googleButton} onPress={handleGoogleLogin} disabled={loading}>
+      <TouchableOpacity style={[styles.googleButton, { opacity: 0.5 }]} onPress={handleGoogleLogin} disabled={true}>
         {loading ? (
           <ActivityIndicator color="#fff" />
         ) : (
