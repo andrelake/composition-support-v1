@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Alert, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { router } from 'expo-router';
@@ -22,12 +22,24 @@ export default function UserAreaScreen() {
   const currentLocale = (i18n.language ?? 'en') as SupportedLocale;
 
   const handleSignOut = async () => {
+    if (profile?.id === 'guest') {
+      // Guest has no Supabase session — clear store and navigate directly
+      clearUser();
+      router.replace('/(auth)/login');
+      return;
+    }
+    // Authenticated user: sign out from Supabase.
+    // clearUser() + navigation are handled by the SIGNED_OUT listener in _layout.tsx
     await supabase.auth.signOut();
-    clearUser();
-    router.replace('/(auth)/login');
   };
 
   const handleSignOutConfirm = () => {
+    if (Platform.OS === 'web') {
+      if (window.confirm(t('auth.signOutConfirm'))) {
+        handleSignOut();
+      }
+      return;
+    }
     Alert.alert(t('auth.signOut'), t('auth.signOutConfirm'), [
       { text: t('common.cancel'), style: 'cancel' },
       { text: t('auth.signOut'), style: 'destructive', onPress: handleSignOut },
