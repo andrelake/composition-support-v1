@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@cs/store';
 import { getScale } from '@cs/music-engine';
@@ -10,8 +10,12 @@ const MAJOR_PENTATONIC_DEGREES = ['I', 'II', 'III', 'V', 'VI'];
 const MINOR_PENTATONIC_DEGREES = ['i', 'bIII', 'iv', 'v', 'bVII'];
 
 export function ScaleRefCard() {
-  const { currentKey, harmonyResult } = useAppStore();
+  const { currentKey, harmonyResult, setKey } = useAppStore();
   const { t } = useTranslation();
+
+  const handleTonalityToggle = () => {
+    setKey(currentKey.root, currentKey.tonality === 'Major' ? 'Minor' : 'Major');
+  };
 
   const scaleNotes = harmonyResult.scale;
   const scaleChords = harmonyResult.chords;
@@ -23,9 +27,18 @@ export function ScaleRefCard() {
 
   return (
     <Card>
-      <Title>
-        {currentKey.root} {t(`tonality.${currentKey.tonality}`, currentKey.tonality)}
-      </Title>
+      <View style={styles.titleRow}>
+        <Title>
+          {currentKey.root} {t(`tonality.${currentKey.tonality}`, currentKey.tonality)}
+        </Title>
+        <TouchableOpacity style={styles.tonalityButton} onPress={handleTonalityToggle}>
+          <Text style={styles.tonalityButtonText}>
+            {currentKey.tonality === 'Major'
+              ? t('dashboard.actions.switchToMinor')
+              : t('dashboard.actions.switchToMajor')}
+          </Text>
+        </TouchableOpacity>
+      </View>
       <Subtitle style={{ marginBottom: 12 }}>{t('dashboard.scale.notes')}</Subtitle>
 
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -75,6 +88,25 @@ export function ScaleRefCard() {
 }
 
 const styles = StyleSheet.create({
+  titleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 4,
+  },
+  tonalityButton: {
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+    borderRadius: 999,
+    backgroundColor: theme.colors.surfaceHover,
+    borderWidth: 1,
+    borderColor: theme.colors.border,
+  },
+  tonalityButtonText: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: theme.colors.textSecondary,
+  },
   noteWrapper: {
     alignItems: 'center',
     marginRight: 8,
