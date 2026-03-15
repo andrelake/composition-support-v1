@@ -6,7 +6,7 @@ export default function Index() {
 
   // If logged in, go to the main dashboard; otherwise go to login
   if (profile) {
-    return <Redirect href="/(tabs)/" />;
+    return <Redirect href="/(tabs)" />;
   }
   return <Redirect href="/(auth)/login" />;
 }
