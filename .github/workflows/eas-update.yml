@@ -6,6 +6,7 @@ on:
 
 jobs:
   eas-update:
+    if: false # app não publicado nas lojas ainda
     name: Publish OTA Update via EAS
     runs-on: ubuntu-latest
 
