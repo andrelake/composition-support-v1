@@ -35,7 +35,9 @@ export const useUserStore = create<UserState>()(
     {
       name: 'user-storage',
       partialize: (state) => ({
-        profile: state.profile,
+        // Do not persist guest profiles — they have no real session and
+        // should not bypass the login screen on app restart.
+        profile: state.profile?.id === 'guest' ? null : state.profile,
         billing: state.billing,
       }),
     }
