@@ -73,7 +73,9 @@ export default function UserAreaScreen() {
             </View>
             <View style={styles.profileInfo}>
               <Text style={styles.profileName}>{profile.name}</Text>
-              <Text style={styles.profileEmail}>{profile.email}</Text>
+              {profile.email ? (
+                <Text style={styles.profileEmail}>{profile.email}</Text>
+              ) : null}
             </View>
           </View>
           <View style={styles.tierBadge}>
