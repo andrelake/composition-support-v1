@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Alert, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { router } from 'expo-router';
@@ -34,6 +34,12 @@ export default function UserAreaScreen() {
   };
 
   const handleSignOutConfirm = () => {
+    if (Platform.OS === 'web') {
+      if (window.confirm(t('auth.signOutConfirm'))) {
+        handleSignOut();
+      }
+      return;
+    }
     Alert.alert(t('auth.signOut'), t('auth.signOutConfirm'), [
       { text: t('common.cancel'), style: 'cancel' },
       { text: t('auth.signOut'), style: 'destructive', onPress: handleSignOut },
