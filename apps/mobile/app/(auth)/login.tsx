@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, ActivityIndicator, StyleSheet, Platform } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { router } from 'expo-router';
@@ -19,7 +19,9 @@ export default function LoginScreen() {
       const { data, error: authError } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: 'compositionhelper:///(tabs)/',
+          redirectTo: Platform.OS === 'web'
+            ? `${window.location.origin}/(tabs)/`
+            : 'compositionhelper:///(tabs)/',
         },
       });
 
@@ -36,7 +38,7 @@ export default function LoginScreen() {
   // Quick guest access (no auth) — skips login for now
   const handleContinueAsGuest = () => {
     const guestProfile: UserProfile = {
-      id: 'guest',
+      id: `guest-${crypto.randomUUID()}`,
       name: 'Guest',
       email: '',
       tier: 'FREE',
@@ -53,7 +55,7 @@ export default function LoginScreen() {
 
       {error && <Text style={styles.error}>{error}</Text>}
 
-      <TouchableOpacity style={[styles.googleButton, { opacity: 0.5 }]} onPress={handleGoogleLogin} disabled={true}>
+      <TouchableOpacity style={styles.googleButton} onPress={handleGoogleLogin}>
         {loading ? (
           <ActivityIndicator color="#fff" />
         ) : (

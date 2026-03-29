@@ -124,11 +124,11 @@ auth (sign in, sign out, expiração de sessão) para que nunca fique preso em e
 
 | ID | Story | Status |
 | -- | ----- | ------ |
-| S1-01 | P1: Environment Setup | Pending |
-| S1-02 | P1: Google OAuth — habilitar botão | Pending |
-| S1-03 | P1: Google OAuth — máquina de estados de auth | Pending |
-| S1-04 | P1: Stripe Webhook Schema Fix | Pending |
-| S1-05 | P2: Robustez da máquina de estados de auth | Pending |
+| S1-01 | P1: Environment Setup | ✅ Done |
+| S1-02 | P1: Google OAuth — habilitar botão | ✅ Done |
+| S1-03 | P1: Google OAuth — máquina de estados de auth | ✅ Done |
+| S1-04 | P1: Stripe Webhook Schema Fix | ✅ Done |
+| S1-05 | P2: Robustez da máquina de estados de auth | ✅ Done |
 
 ---
 
@@ -145,9 +145,9 @@ auth (sign in, sign out, expiração de sessão) para que nunca fique preso em e
 
 ## Success Criteria
 
-- [ ] App inicia sem warning de env vars do Supabase
-- [ ] Botão Google OAuth habilitado e funcional end-to-end
-- [ ] Sign in com Google → User Area exibe nome, email e tier corretos
-- [ ] Stripe CLI `checkout.session.completed` → `profiles.tier = 'PREMIUM'` no Supabase
-- [ ] `npm run typecheck` passa sem erros
-- [ ] Guest login sem regressão
+- [x] App inicia sem warning de env vars do Supabase
+- [x] Botão Google OAuth habilitado e funcional end-to-end
+- [x] Sign in com Google → User Area exibe nome, email e tier corretos
+- [x] Stripe CLI `checkout.session.completed` → `profiles.tier = 'PREMIUM'` no Supabase
+- [x] `npm run typecheck` passa sem erros
+- [x] Guest login sem regressão
