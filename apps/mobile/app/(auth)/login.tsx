@@ -20,7 +20,7 @@ export default function LoginScreen() {
         provider: 'google',
         options: {
           redirectTo: Platform.OS === 'web'
-            ? `${window.location.origin}/(tabs)/`
+            ? `${process.env.EXPO_PUBLIC_SITE_URL || window.location.origin}/(tabs)/`
             : 'compositionhelper:///(tabs)/',
         },
       });
