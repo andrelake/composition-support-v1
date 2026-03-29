@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { Platform } from 'react-native';
 
 /**
  * Supabase URL and Anon Key are injected via environment variables.
@@ -23,7 +24,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     autoRefreshToken: true,
     persistSession: true,
-    detectSessionInUrl: false, // Must be false for React Native / Expo
+    detectSessionInUrl: Platform.OS === 'web',
   },
 });
 

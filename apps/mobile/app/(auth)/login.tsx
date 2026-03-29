@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, ActivityIndicator, StyleSheet, Platform } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { router } from 'expo-router';
@@ -19,7 +19,9 @@ export default function LoginScreen() {
       const { data, error: authError } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: 'compositionhelper:///(tabs)/',
+          redirectTo: Platform.OS === 'web'
+            ? `${window.location.origin}/(tabs)/`
+            : 'compositionhelper:///(tabs)/',
         },
       });
 
