@@ -22,7 +22,7 @@ export default function UserAreaScreen() {
   const currentLocale = (i18n.language ?? 'en') as SupportedLocale;
 
   const handleSignOut = async () => {
-    if (profile?.id === 'guest') {
+    if (!profile?.email) {
       // Guest has no Supabase session — clear store and navigate directly
       clearUser();
       router.replace('/(auth)/login');

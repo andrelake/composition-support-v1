@@ -25,7 +25,7 @@ serve(async (req: Request) => {
   const signature = req.headers.get('stripe-signature');
 
   if (!signature) {
-    return new Response('Missing stripe-signature header', { status: 400 });
+    return new Response('Missing stripe-signature header', { status: 401 });
   }
 
   let event: Stripe.Event;
@@ -91,6 +91,9 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
 
   const subscriptionId = session.subscription as string;
 
+  // Retrieve full subscription to get price_id, current_period_end, etc.
+  const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+
   // Update profiles table to PREMIUM
   const { error: profileError } = await supabase
     .from('profiles')
@@ -106,6 +109,9 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
       id: subscriptionId,
       user_id: userId,
       status: 'active',
+      price_id: subscription.items.data[0]?.price?.id ?? null,
+      current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+      cancel_at_period_end: subscription.cancel_at_period_end,
     });
 
   if (subError) console.error('Error upserting subscription:', subError);

@@ -38,7 +38,7 @@ export default function LoginScreen() {
   // Quick guest access (no auth) — skips login for now
   const handleContinueAsGuest = () => {
     const guestProfile: UserProfile = {
-      id: 'guest',
+      id: `guest-${crypto.randomUUID()}`,
       name: 'Guest',
       email: '',
       tier: 'FREE',
