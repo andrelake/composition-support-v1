@@ -35,7 +35,7 @@ serve(async (req: Request) => {
     event = await stripe.webhooks.constructEventAsync(body, signature, webhookSecret);
   } catch (err) {
     console.error('Webhook signature verification failed:', err);
-    return new Response('Webhook Error', { status: 400 });
+    return new Response('Webhook Error', { status: 401 });
   }
 
   console.log(`Received Stripe event: ${event.type}`);
@@ -89,7 +89,6 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
     return;
   }
 
-  const customerId = session.customer as string;
   const subscriptionId = session.subscription as string;
 
   // Update profiles table to PREMIUM
@@ -100,13 +99,12 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
 
   if (profileError) console.error('Error updating profile tier:', profileError);
 
-  // Upsert subscriptions table
+  // Upsert subscriptions table (id = Stripe subscription ID as PK)
   const { error: subError } = await supabase
     .from('subscriptions')
     .upsert({
+      id: subscriptionId,
       user_id: userId,
-      stripe_customer_id: customerId,
-      stripe_subscription_id: subscriptionId,
       status: 'active',
     });
 
@@ -114,21 +112,22 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
 }
 
 async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
-  const status = subscription.status; // 'active' | 'past_due' | 'canceled' | etc.
+  const status = subscription.status; // 'active' | 'trialing' | 'past_due' | 'canceled' | etc.
 
   const { error } = await supabase
     .from('subscriptions')
     .update({ status })
-    .eq('stripe_subscription_id', subscription.id);
+    .eq('id', subscription.id);
 
   if (error) console.error('Error updating subscription status:', error);
 
-  // Downgrade if not active
-  if (status !== 'active') {
+  // Only downgrade on terminal statuses (not trialing or past_due)
+  const shouldDowngrade = ['canceled', 'unpaid', 'incomplete_expired'].includes(status);
+  if (shouldDowngrade) {
     const { data: sub } = await supabase
       .from('subscriptions')
       .select('user_id')
-      .eq('stripe_subscription_id', subscription.id)
+      .eq('id', subscription.id)
       .single();
 
     if (sub?.user_id) {
@@ -141,7 +140,7 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
   const { data: sub } = await supabase
     .from('subscriptions')
     .select('user_id')
-    .eq('stripe_subscription_id', subscription.id)
+    .eq('id', subscription.id)
     .single();
 
   if (sub?.user_id) {
@@ -149,7 +148,7 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
     await supabase
       .from('subscriptions')
       .update({ status: 'canceled' })
-      .eq('stripe_subscription_id', subscription.id);
+      .eq('id', subscription.id);
   }
 }
 

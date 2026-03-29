@@ -18,30 +18,52 @@ export default function RootLayout() {
   const clearUser = useUserStore((s) => s.clearUser);
 
   useEffect(() => {
+    let currentUserId: string | null = null;
+
+    const fetchAndSetProfile = async (user: { id: string; email?: string; user_metadata?: Record<string, unknown>; created_at?: string }) => {
+      // Idempotency guard: skip if same user already loaded
+      if (currentUserId === user.id) return;
+
+      try {
+        const { data: profileRow } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', user.id)
+          .single();
+
+        const profile: UserProfile = {
+          id: user.id,
+          name: profileRow?.name ?? (user.user_metadata?.full_name as string) ?? user.email ?? 'User',
+          email: user.email ?? '',
+          tier: profileRow?.tier ?? 'FREE',
+          memberSince: profileRow?.created_at ?? user.created_at ?? new Date().toISOString(),
+        };
+
+        currentUserId = user.id;
+        setProfile(profile);
+        router.replace('/(tabs)');
+      } catch {
+        // Fallback profile on network error or missing row
+        const fallback: UserProfile = {
+          id: user.id,
+          name: (user.user_metadata?.full_name as string) ?? user.email ?? 'User',
+          email: user.email ?? '',
+          tier: 'FREE',
+          memberSince: user.created_at ?? new Date().toISOString(),
+        };
+        currentUserId = user.id;
+        setProfile(fallback);
+        router.replace('/(tabs)');
+      }
+    };
+
     // Listen for auth state changes (handles OAuth redirect + sign-out)
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        if (event === 'SIGNED_IN' && session?.user) {
-          const user = session.user;
-
-          // Try to fetch the profile row from Supabase
-          const { data: profileRow } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('id', user.id)
-            .single();
-
-          const profile: UserProfile = {
-            id: user.id,
-            name: profileRow?.name ?? user.user_metadata?.full_name ?? user.email ?? 'User',
-            email: user.email ?? '',
-            tier: profileRow?.tier ?? 'FREE',
-            memberSince: profileRow?.created_at ?? user.created_at,
-          };
-
-          setProfile(profile);
-          router.replace('/(tabs)');
+        if ((event === 'SIGNED_IN' || event === 'INITIAL_SESSION') && session?.user) {
+          await fetchAndSetProfile(session.user);
         } else if (event === 'SIGNED_OUT') {
+          currentUserId = null;
           clearUser();
           router.replace('/(auth)/login');
         }
