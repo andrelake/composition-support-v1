@@ -66,7 +66,7 @@ export function HarmonicFieldCard() {
 
   if (!currentKey) return null;
 
-  const isGuest = profile?.id === 'guest';
+  const isLocked = profile?.tier !== 'PREMIUM';
   const parallelTonality: Tonality = currentKey.tonality === 'Major' ? 'Minor' : 'Major';
 
   const basicRows: Array<{ root: Note; tonality: Tonality; label?: string }> = [
@@ -105,7 +105,7 @@ export function HarmonicFieldCard() {
         {rows.map((row, idx) => (
           <HarmonicRow key={`${row.root}-${row.tonality}-${idx}`} root={row.root} tonality={row.tonality} label={'label' in row ? row.label : undefined} />
         ))}
-        {activeTab === 'modes' && isGuest && (
+        {activeTab === 'modes' && isLocked && (
           <View style={styles.guestOverlay}>
             <View style={[
               StyleSheet.absoluteFillObject,
