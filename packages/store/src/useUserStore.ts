@@ -12,6 +12,9 @@ export const useUserStore = create<UserState>()(
       },
       isLoading: false,
       error: null,
+      _hasHydrated: false,
+
+      setHasHydrated: (value: boolean) => set({ _hasHydrated: value }),
 
       setProfile: (profile: UserProfile | null) => {
         set({ profile, error: null });
@@ -40,6 +43,9 @@ export const useUserStore = create<UserState>()(
         profile: state.profile?.id?.startsWith('guest-') ? null : state.profile,
         billing: state.billing,
       }),
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
     }
   )
 );

@@ -31,9 +31,11 @@ export interface UserState {
   };
   isLoading: boolean;
   error: string | null;
+  _hasHydrated: boolean;
 
   // Actions
   setProfile: (profile: UserProfile | null) => void;
   updateUser: (data: Partial<UserProfile>) => void;
   clearUser: () => void;
+  setHasHydrated: (value: boolean) => void;
 }
