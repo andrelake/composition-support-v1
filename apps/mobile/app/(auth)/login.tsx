@@ -18,22 +18,15 @@ export default function LoginScreen() {
     try {
       const redirectTo = typeof window !== 'undefined'
         ? window.location.origin
-        : process.env.EXPO_PUBLIC_SITE_URL ?? '';
+        : '';
 
-      const { data, error: authError } = await supabase.auth.signInWithOAuth({
+      const { error: authError } = await supabase.auth.signInWithOAuth({
         provider: 'google',
-        options: {
-          redirectTo,
-          skipBrowserRedirect: true,
-        },
+        options: { redirectTo },
       });
 
       if (authError) throw authError;
-
-      if (data.url) {
-        // Use assign to bypass potential Expo Router interception
-        window.location.assign(data.url);
-      }
+      // Supabase SDK handles the browser redirect internally
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Login failed';
       setError(message);
