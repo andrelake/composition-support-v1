@@ -5,8 +5,12 @@ export default function Index() {
   const profile = useUserStore((s) => s.profile);
   const hasHydrated = useUserStore((s) => s._hasHydrated);
 
-  // Wait for store rehydration to prevent flash redirect on cold-start
-  if (!hasHydrated) {
+  // If there is an OAuth callback in progress (tokens in the URL hash),
+  // stay put and let onAuthStateChange in _layout.tsx handle navigation
+  const isOAuthCallback =
+    typeof window !== 'undefined' && window.location.hash.includes('access_token');
+
+  if (!hasHydrated || isOAuthCallback) {
     return null;
   }
 
