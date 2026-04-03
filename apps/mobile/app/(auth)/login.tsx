@@ -16,12 +16,14 @@ export default function LoginScreen() {
     setLoading(true);
     setError(null);
     try {
+      const redirectTo = Platform.OS === 'web'
+        ? (typeof window !== 'undefined' ? window.location.origin : process.env.EXPO_PUBLIC_SITE_URL ?? '')
+        : 'compositionhelper://';
+
       const { data, error: authError } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: Platform.OS === 'web'
-            ? `${process.env.EXPO_PUBLIC_SITE_URL || window.location.origin}/(tabs)/`
-            : 'compositionhelper:///(tabs)/',
+          redirectTo,
         },
       });
 
@@ -55,7 +57,7 @@ export default function LoginScreen() {
 
       {error && <Text style={styles.error}>{error}</Text>}
 
-      <TouchableOpacity style={[styles.googleButton, styles.googleButtonDisabled]} onPress={handleGoogleLogin} disabled>
+      <TouchableOpacity style={[styles.googleButton, loading && styles.googleButtonDisabled]} onPress={handleGoogleLogin} disabled={loading}>
         {loading ? (
           <ActivityIndicator color="#fff" />
         ) : (
