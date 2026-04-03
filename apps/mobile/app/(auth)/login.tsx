@@ -31,7 +31,8 @@ export default function LoginScreen() {
       if (authError) throw authError;
 
       if (data.url) {
-        window.location.href = data.url;
+        // Use assign to bypass potential Expo Router interception
+        window.location.assign(data.url);
       }
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Login failed';
