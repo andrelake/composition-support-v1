@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ActivityIndicator, StyleSheet, Platform } from 'react-native';
+import { View, Text, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { router } from 'expo-router';
@@ -16,23 +16,26 @@ export default function LoginScreen() {
     setLoading(true);
     setError(null);
     try {
-      const redirectTo = Platform.OS === 'web'
-        ? (typeof window !== 'undefined' ? window.location.origin : process.env.EXPO_PUBLIC_SITE_URL ?? '')
-        : 'compositionhelper://';
+      const redirectTo = typeof window !== 'undefined'
+        ? window.location.origin
+        : process.env.EXPO_PUBLIC_SITE_URL ?? '';
 
       const { data, error: authError } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
           redirectTo,
+          skipBrowserRedirect: true,
         },
       });
 
       if (authError) throw authError;
-      // After OAuth the session listener in _layout will handle navigation
+
+      if (data.url) {
+        window.location.href = data.url;
+      }
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Login failed';
       setError(message);
-    } finally {
       setLoading(false);
     }
   };
