@@ -32,8 +32,13 @@ export default function UserAreaScreen() {
     // Authenticated user: sign out from Supabase then force local logout.
     // Not relying solely on the SIGNED_OUT listener (_layout.tsx) to avoid
     // race conditions where the event fires before the listener is ready.
+    // If the global signOut fails (network error), fall back to local scope
+    // to clear the JWT + refresh token from storage — preventing the Supabase
+    // client from silently re-authenticating on the next app mount.
     try {
       await supabase.auth.signOut();
+    } catch {
+      await supabase.auth.signOut({ scope: 'local' });
     } finally {
       clearUser();
       router.replace('/(auth)/login');
