@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { useAppStore, useUserStore } from '@cs/store';
+import { useAppStore } from '@cs/store';
 import type { Chord } from '@cs/music-engine';
 import { Card } from '../ui/Card';
 import { Title } from '../ui/Typography';
 import { theme } from '../../theme';
+import { useIsPremium } from '../../hooks/useIsPremium';
 
 const formatChordClass = (c: string) => {
   if (c === 'maj') return '';
@@ -23,16 +24,16 @@ const chordHasCharacteristic = (chord: Chord) =>
 
 export function CadenceCard() {
   const { harmonyResult } = useAppStore();
-  const { profile } = useUserStore();
+  const isPremium = useIsPremium();
   const { t } = useTranslation();
   const { cadences } = harmonyResult;
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const cadenceGenres = useMemo(() => {
     const allGenres = Object.keys(cadences || {});
-    if (profile?.tier === 'PREMIUM') return allGenres;
+    if (isPremium) return allGenres;
     return allGenres.filter((g) => ['POP', 'JAZZ', 'CLASSICAL'].includes(g));
-  }, [cadences, profile?.tier]);
+  }, [cadences, isPremium]);
 
   const [activeGenre, setActiveGenre] = useState<string>('');
 
@@ -72,7 +73,7 @@ export function CadenceCard() {
             ))}
           </ScrollView>
 
-          {profile?.tier !== 'PREMIUM' && (
+          {!isPremium && (
             <Text style={styles.premiumNotice}>{t('dashboard.cadence.premiumNotice')}</Text>
           )}
 

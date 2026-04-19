@@ -12,6 +12,9 @@ build/
 .env.local
 .env.*.local
 
+# Exception: template files with no real values (safe to track)
+!apps/mobile/.env
+
 # OS
 .DS_Store
 Thumbs.db
@@ -23,6 +26,13 @@ Thumbs.db
 # Logs
 *.log
 npm-debug.log*
+
+# Temp / build artifacts
+tmp_bundle.js
+nul
+
+# Agent-generated scratch files
+WEBAPP_LOCAL_TESTING_PLAN.md
 
 # Expo
 *.jks

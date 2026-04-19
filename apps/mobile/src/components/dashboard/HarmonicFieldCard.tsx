@@ -2,12 +2,13 @@ import { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { router } from 'expo-router';
-import { useAppStore, useUserStore } from '@cs/store';
+import { useAppStore } from '@cs/store';
 import { getScale, getDiatonicChords } from '@cs/music-engine';
 import type { Note, Tonality } from '@cs/music-engine';
 import { Card } from '../ui/Card';
 import { Title } from '../ui/Typography';
 import { theme } from '../../theme';
+import { useIsPremium } from '../../hooks/useIsPremium';
 
 const formatChordClass = (c: string) => {
   if (c === 'maj') return '';
@@ -60,13 +61,13 @@ function HarmonicRow({ root, tonality, label }: HarmonicRowProps) {
 
 export function HarmonicFieldCard() {
   const { currentKey } = useAppStore();
-  const profile = useUserStore((s) => s.profile);
+  const isPremium = useIsPremium();
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<'basic' | 'modes'>('basic');
 
   if (!currentKey) return null;
 
-  const isLocked = profile?.tier !== 'PREMIUM';
+  const isLocked = !isPremium;
   const parallelTonality: Tonality = currentKey.tonality === 'Major' ? 'Minor' : 'Major';
 
   const basicRows: Array<{ root: Note; tonality: Tonality; label?: string }> = [
