@@ -22,15 +22,22 @@ export default function UserAreaScreen() {
   const currentLocale = (i18n.language ?? 'en') as SupportedLocale;
 
   const handleSignOut = async () => {
-    if (!profile?.email) {
-      // Guest has no Supabase session — clear store and navigate directly
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      // No active Supabase session (guest) — clear store and navigate directly
       clearUser();
       router.replace('/(auth)/login');
       return;
     }
-    // Authenticated user: sign out from Supabase.
-    // clearUser() + navigation are handled by the SIGNED_OUT listener in _layout.tsx
-    await supabase.auth.signOut();
+    // Authenticated user: sign out from Supabase then force local logout.
+    // Not relying solely on the SIGNED_OUT listener (_layout.tsx) to avoid
+    // race conditions where the event fires before the listener is ready.
+    try {
+      await supabase.auth.signOut();
+    } finally {
+      clearUser();
+      router.replace('/(auth)/login');
+    }
   };
 
   const handleSignOutConfirm = () => {
